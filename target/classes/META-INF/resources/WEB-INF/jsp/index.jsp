@@ -22,7 +22,7 @@
       <div style="float: left;">
         <p style="text-decoration:none;font-size:25px">
           <c:if test="${sessionScope.user != null}">
-            您好！欢迎登陆${sessionScope.user.staff_name}!!!
+            您好${sessionScope.user.staff_name}！欢迎登陆!!!
           </c:if>
         </p>
       </div>
