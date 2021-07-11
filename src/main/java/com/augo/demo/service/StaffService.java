@@ -22,4 +22,8 @@ public interface StaffService {
     List<AllStaff> findStaff();
 
     List<AllStaff> findStaff(int number);
+
+    AllStaff echoStaff(int id);
+
+    void updateStaff(AllStaff allStaff);
 }

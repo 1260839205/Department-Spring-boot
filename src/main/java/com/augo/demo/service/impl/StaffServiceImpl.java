@@ -47,13 +47,60 @@ public class StaffServiceImpl implements StaffService {
         return null;
     }
 
+    /**
+     * 管理员查询
+     * @return
+     */
     @Override
     public List<AllStaff> findStaff() {
         return staffMapper.findStaff();
     }
 
+    /**
+     * 部门经理查询
+     * @param number
+     * @return
+     */
     @Override
     public List<AllStaff> findStaff(int number) {
         return staffMapper.getStaff(number);
+    }
+
+    /**
+     * 数据回显
+     * @param id
+     * @return
+     */
+    @Override
+    public AllStaff echoStaff(int id) {
+        return staffMapper.echoStaff(id);
+    }
+
+    /**
+     * 更新数据
+     * @param allStaff
+     */
+    @Override
+    public void updateStaff(AllStaff allStaff) {
+        if("研发部".equals(allStaff.getDepartment_name())){
+            allStaff.setDepartment_id(1001);
+        }else if ("财务部".equals(allStaff.getDepartment_name())){
+            allStaff.setDepartment_id(1002);
+        }else if ("运营部".equals(allStaff.getDepartment_name())){
+            allStaff.setDepartment_id(1003);
+        }
+        if ("部门经理".equals(allStaff.getPosition_name())){
+            allStaff.setPosition_id(101);
+        }else if ("助理".equals(allStaff.getPosition_name())){
+            allStaff.setPosition_id(102);
+        }else if ("会计师".equals(allStaff.getPosition_name())){
+            allStaff.setPosition_id(103);
+        }else if ("程序员".equals(allStaff.getPosition_name())){
+            allStaff.setPosition_id(104);
+        }else if ("运营专员".equals(allStaff.getPosition_name())){
+            allStaff.setPosition_id(105);
+        }
+        System.out.println(allStaff);
+        staffMapper.updateStaff(allStaff.getStaff_sex(),allStaff.getStaff_age(),allStaff.getDepartment_id(),allStaff.getPosition_id(),allStaff.getStaff_id());
     }
 }

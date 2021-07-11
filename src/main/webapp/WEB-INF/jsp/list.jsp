@@ -71,7 +71,7 @@
 <div class="container">
     <c:if test="${sessionScope.user != null}">
         <div style="float: left;">
-            您好！欢迎登陆${sessionScope.user.staff_name}!!!
+            您好${sessionScope.user.staff_name}！欢迎登陆!!!
         </div>
     </c:if>
     <h3 style="text-align: center">员工信息列表</h3>
@@ -108,7 +108,7 @@
                     <td>${user.department_name}</td>
                     <td>${user.position_name}</td>
                     <td>${user.authority_type}</td>
-                    <td><a class="btn btn-default btn-sm" href="${user.staff_id}">修改</a>&nbsp;<a class="btn btn-default btn-sm" href="javascript:deleteUser(${user.staff_id});">删除</a></td>
+                    <td><a class="btn btn-default btn-sm" href="/update/${user.staff_id}">修改</a>&nbsp;<a class="btn btn-default btn-sm" href="javascript:deleteUser(${user.staff_id});">删除</a></td>
                 </tr>
             </c:forEach>
         </table>

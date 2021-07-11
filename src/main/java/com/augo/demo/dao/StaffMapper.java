@@ -4,6 +4,7 @@ import com.augo.demo.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,9 +26,16 @@ public interface StaffMapper {
     @Select("select * from unpwd u,staff s,department d,dep_position p,authority a  where s.staff_id = u.pwd_staff_id and s.staff_department_id = d.department_id and s.staff_position_id = p.position_id and s.staff_authority_id = a.authority_id")
     List<AllStaff> findStaff();
 
+    /**
+     * 查询指定部门信息
+     * @param id
+     * @return
+     */
     @Select("select * from unpwd u,staff s,department d,dep_position p,authority a  where s.staff_id = u.pwd_staff_id and s.staff_department_id = d.department_id and s.staff_position_id = p.position_id and s.staff_authority_id = a.authority_id and s.staff_department_id = #{id}")
     List<AllStaff> getStaff(@Param("id")int id);
 
+    @Select("select * from unpwd u,staff s,department d,dep_position p,authority a  where s.staff_id = u.pwd_staff_id and s.staff_department_id = d.department_id and s.staff_position_id = p.position_id and s.staff_authority_id = a.authority_id and s.staff_id = #{id}")
+    AllStaff echoStaff(@Param("id") int id);
 
     /**
      * 登录验证查询
@@ -63,4 +71,16 @@ public interface StaffMapper {
      */
     @Select("select * from dep_position where position_id = #{id}")
     Position login_Position(@Param("id") int id);
+
+
+    /**
+     * 更新用户信息
+     * @param sex
+     * @param age
+     * @param dep_id
+     * @param position_id
+     * @param id
+     */
+    @Update("update staff set staff_sex = #{sex},staff_age = #{age},staff_department_id = #{dep_id},staff_position_id = #{position_id} where staff_id = #{id}")
+    void updateStaff(@Param("sex")String sex,@Param("age")int age,@Param("dep_id")int dep_id,@Param("position_id")int position_id,@Param("id")int id);
 }

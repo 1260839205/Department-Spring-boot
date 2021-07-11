@@ -92,6 +92,36 @@ public class StaffController {
     }
 
     /**
+     * 修改用户界面的回显信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("/update/{id}")
+    public String echoStaff(@PathVariable int id , Model model){
+        AllStaff allStaff = staffService.echoStaff(id);
+        model.addAttribute("echo_Staff",allStaff);
+        System.out.println(allStaff);
+        return "update";
+    }
+
+    /**
+     * 更新用户
+     * @param allStaff
+     * @param session
+     * @return
+     */
+    @PostMapping("/update")
+    public String updateStaff(AllStaff allStaff,HttpSession session ){
+        Staff staff = (Staff) session.getAttribute("user");
+        staffService.updateStaff(allStaff);
+        if (staff.getStaff_authority_id() != 10000) {
+            return "forward:list/" + staff.getStaff_department_id();
+        }else {
+            return "forward:list";
+        }
+    }
+
+    /**
      * 请求验证码
      * @param request
      * @param resp
