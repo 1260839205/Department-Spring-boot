@@ -1,6 +1,7 @@
 package com.augo.demo.controller;
 
 
+import com.augo.demo.pojo.AllStaff;
 import com.augo.demo.pojo.Authority;
 import com.augo.demo.pojo.Staff;
 import com.augo.demo.service.impl.StaffServiceImpl;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -48,7 +50,6 @@ public class StaffController {
     public String login(String user, String password, String verifycode, HttpSession session, Model model){
         //获取Session域中的验证码值
         String verify_code = (String) session.getAttribute("verify_code");
-        session.removeAttribute("verify_code");
         //判断用户输入的验证码是否与Session域中的验证码一致
         if (verifycode != null && verify_code != null &&verify_code.equalsIgnoreCase(verifycode)){
             Map<String, Object> map = staffService.login(user, password);
@@ -67,9 +68,26 @@ public class StaffController {
         return "login";
     }
 
+    /**
+     * 权限查询
+     * @param number
+     * @return
+     */
     @RequestMapping("/list/{number}")
-    public String listStaff(@PathVariable int number, HttpSession session){
+    public String listStaff(@PathVariable int number,Model model){
+        List<AllStaff> staff = staffService.findStaff(number);
+        model.addAttribute("allStaff",staff);
+        return "list";
+    }
 
+    /**
+     * 管理员查询
+      * @return
+     */
+    @RequestMapping("/list")
+    public String listStaff(Model model){
+        List<AllStaff> staff = staffService.findStaff();
+        model.addAttribute("allStaff",staff);
         return "list";
     }
 

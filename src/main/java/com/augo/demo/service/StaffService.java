@@ -1,10 +1,12 @@
 package com.augo.demo.service;
 
 import com.augo.demo.dao.StaffMapper;
+import com.augo.demo.pojo.AllStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +18,8 @@ import java.util.Map;
 public interface StaffService {
 
     Map<String,Object> login(String username , String password);
+
+    List<AllStaff> findStaff();
+
+    List<AllStaff> findStaff(int number);
 }

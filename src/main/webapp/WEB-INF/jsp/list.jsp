@@ -62,7 +62,7 @@
 
         function deleteUser(id) {
             if (confirm("您确定要删除吗？")){
-                location.href = "${pageContext.request.contextPath}/deleteUserServlet?id="+id;
+                location.href = "/delete/"+id;
             }
         }
     </script>
@@ -76,27 +76,15 @@
     </c:if>
     <h3 style="text-align: center">员工信息列表</h3>
     <div style="float:left;">
-        <form class="form-inline" action="${pageContext.request.contextPath}/listUserServlet" method="post">
-            <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="王五">
-            </div>
-            <div class="form-group">
-                <label for="hometown">籍贯</label>
-                <input type="text" class="form-control" id="hometown" name="hometown" placeholder="浙江">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="12138@gmail.com">
-            </div>
-            <button type="submit" class="btn btn-default">查询</button>
+        <form class="form-inline" action="/index" method="get">
+            <button type="submit" class="btn btn-default">返回首页</button>
         </form>
     </div>
     <div style="float: right;margin: 5px;">
         <a class="btn btn-primary" href="add.jsp">添加联系人</a>
         <a class="btn btn-primary" id="delSeleced" href="javascript:void(0);">删除选中</a>
     </div>
-    <form action="${pageContext.request.contextPath}/deleteSelecedServlet" method="post" id="form">
+    <form action="" method="post" id="form">
         <table border="1" class="table table-bordered table-hover">
             <tr class="success">
                 <th><input type="checkbox" id="selectAll"></th>
@@ -104,62 +92,27 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>年龄</th>
-                <th>籍贯</th>
-                <th>QQ</th>
-                <th>邮箱</th>
+                <th>部门</th>
+                <th>职位</th>
+                <th>权限</th>
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${requestScope.pbu.tList}" var="user" varStatus="number">
-            <tr>
-                <td><input type="checkbox" name="uid" value="${user.id}"></td>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.gender}</td>
-                <td>${user.age}</td>
-                <td>${user.hometown}</td>
-                <td>${user.qq}</td>
-                <td>${user.email}</td>
-                <td><a class="btn btn-default btn-sm" href="${pageContext.request.contextPath}/echoUserServlet?id=${user.id}">修改</a>&nbsp;<a class="btn btn-default btn-sm" href="javascript:deleteUser(${user.id});">删除</a></td>
-            </tr>
+            <c:forEach items="${allStaff}" var="user" varStatus="number">
+                <tr>
+                    <td><input type="checkbox" name="uid" value="${user.staff_id}"></td>
+                    <td>${user.staff_id}</td>
+                    <td>${user.staff_name}</td>
+                    <td>${user.staff_sex}</td>
+                    <td>${user.staff_age}</td>
+                    <td>${user.department_name}</td>
+                    <td>${user.position_name}</td>
+                    <td>${user.authority_type}</td>
+                    <td><a class="btn btn-default btn-sm" href="${user.staff_id}">修改</a>&nbsp;<a class="btn btn-default btn-sm" href="javascript:deleteUser(${user.staff_id});">删除</a></td>
+                </tr>
             </c:forEach>
         </table>
     </form>
-    <nav aria-label="...">
-        <ul class="pagination">
-            <c:if test="${requestScope.pbu.currentPageNumber == 1}">
-                <li class="disabled">
-            </c:if>
-            <c:if test="${requestScope.pbu.currentPageNumber > 1}">
-                <li>
-            </c:if>
-            <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${requestScope.pbu.currentPageNumber - 1}&rows=5">&laquo;</a>
-            </li>
-            <c:forEach begin="1" end="${requestScope.pbu.totalPageNumber}" var="i" step="1">
-            <c:if test="${requestScope.pbu.currentPageNumber == i}">
-            <li class="active">
-                <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${i}&rows=5">${i} <span class="sr-only">(current)</span></a>
-            </li>
-            </c:if>
-            <c:if test="${requestScope.pbu.currentPageNumber != i}">
-            <li>
-                <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${i}&rows=5">${i} <span class="sr-only">(current)</span></a>
-            </li>
-            </c:if>
-            </c:forEach>
-            <c:if test="${requestScope.pbu.currentPageNumber == requestScope.pbu.totalPageNumber}">
-            <li class="disabled">
-            </c:if>
-            <c:if test="${requestScope.pbu.currentPageNumber < requestScope.pbu.totalPageNumber}">
-            <li>
-            </c:if>
-                <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${requestScope.pbu.currentPageNumber >= requestScope.pbu.totalPageNumber ? requestScope.pbu.currentPageNumber:requestScope.pbu.currentPageNumber + 1}&rows=5" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            <span style="font-size: 24px;">共有${requestScope.pbu.totalCount}条数据，共${requestScope.pbu.totalPageNumber}页</span>
-        </ul>
-    </nav>
 </div>
 </body>
 </html>

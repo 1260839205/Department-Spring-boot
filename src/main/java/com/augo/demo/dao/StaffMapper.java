@@ -1,9 +1,6 @@
 package com.augo.demo.dao;
 
-import com.augo.demo.pojo.Authority;
-import com.augo.demo.pojo.Department;
-import com.augo.demo.pojo.Position;
-import com.augo.demo.pojo.Staff;
+import com.augo.demo.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -21,8 +18,16 @@ import java.util.List;
 @Repository("staffMapper")
 public interface StaffMapper {
 
-    @Select("select * from staff")
-    List<Staff> findStaff();
+    /**
+     * 查询所有人信息
+     * @return
+     */
+    @Select("select * from unpwd u,staff s,department d,dep_position p,authority a  where s.staff_id = u.pwd_staff_id and s.staff_department_id = d.department_id and s.staff_position_id = p.position_id and s.staff_authority_id = a.authority_id")
+    List<AllStaff> findStaff();
+
+    @Select("select * from unpwd u,staff s,department d,dep_position p,authority a  where s.staff_id = u.pwd_staff_id and s.staff_department_id = d.department_id and s.staff_position_id = p.position_id and s.staff_authority_id = a.authority_id and s.staff_department_id = #{id}")
+    List<AllStaff> getStaff(@Param("id")int id);
+
 
     /**
      * 登录验证查询
@@ -33,6 +38,7 @@ public interface StaffMapper {
 //    select s.staff_id,s.staff_name,s.staff_sex,s.staff_age,s.staff_department_id,s.staff_position_id,s.staff_authority_id,u.pwd_username,u.pwd_password from staff s join unpwd u on s.staff_id = u.pwd_staff_id where s.staff_id = 100000;
     @Select("select s.staff_id,s.staff_name,s.staff_sex,s.staff_age,s.staff_department_id,s.staff_position_id,s.staff_authority_id,u.pwd_username,u.pwd_password from unpwd u join staff s on s.staff_id = u.pwd_staff_id where pwd_username = #{username} and pwd_password = #{password}")
     Staff login(@Param("username") String username ,@Param("password") String password);
+
 
     /**
      * 查询用户权限

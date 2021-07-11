@@ -1,16 +1,14 @@
 package com.augo.demo.service.impl;
 
 import com.augo.demo.dao.StaffMapper;
-import com.augo.demo.pojo.Authority;
-import com.augo.demo.pojo.Department;
-import com.augo.demo.pojo.Position;
-import com.augo.demo.pojo.Staff;
+import com.augo.demo.pojo.*;
 import com.augo.demo.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,5 +45,15 @@ public class StaffServiceImpl implements StaffService {
             return staffMap;
         }
         return null;
+    }
+
+    @Override
+    public List<AllStaff> findStaff() {
+        return staffMapper.findStaff();
+    }
+
+    @Override
+    public List<AllStaff> findStaff(int number) {
+        return staffMapper.getStaff(number);
     }
 }

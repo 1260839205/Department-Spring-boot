@@ -4,10 +4,7 @@ import com.augo.demo.pojo.Authority;
 import com.augo.demo.pojo.Department;
 import com.augo.demo.pojo.Position;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -33,7 +30,7 @@ public class InquireFilter implements Filter {
         Position position  = (Position) request.getSession().getAttribute("position");
         //获取浏览器请求访问路径
         String uri = request.getRequestURI();
-        if (uri.contains("/list/1001") || uri.contains("/list/1002") ||uri.contains("/list/1003")) { //判断是否是要拦截的路径
+        if (uri.contains("/list/1001") || uri.contains("/list/1002") ||uri.contains("/list/1003") ||uri.contains("/list")) { //判断是否是要拦截的路径
             if (authority.getAuthority_id() == 10000 && position.getPosition_id() == 100 &&department.getDepartment_id() == 1000){//判断是不是超级管理员
                 filterChain.doFilter(request,response);
             }else if ( position.getPosition_id() == 101 && authority.getAuthority_id() == 10002){ //判断是否是经理，以及是否拥有查看权限

@@ -50,20 +50,12 @@
 	  	</form>
 		
 		<!-- 出错显示的信息框 -->
-		<c:if test="${sessionScope.verify_code !=null&&msg != null}">
-	  	<div class="alert alert-warning alert-dismissible" role="alert">
-		  <button type="button" class="close" data-dismiss="alert" >
-		  	<span>&times;</span>
-		  </button>
-		   <strong>${msg}</strong>
-		</div>
-		</c:if>
-		<c:if test="${sessionScope.verify_code !=null&&requestScope.msg != null}">
+		<c:if test="${sessionScope.verify_code != null && msg != null}">
 			<div class="alert alert-warning alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" >
-					<span>&times;</span>
-				</button>
-				<strong>${requestScope.msg}</strong>
+			  <button type="button" class="close" data-dismiss="alert" >
+				<span>&times;</span>
+			  </button>
+			   <strong>${msg}</strong>
 			</div>
 		</c:if>
   	</div>
