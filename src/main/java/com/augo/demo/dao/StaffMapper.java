@@ -118,4 +118,5 @@ public interface StaffMapper {
 
     @Select("select * from staff where staff_name = #{name} and staff_sex = #{sex} and staff_age = #{age} and staff_department_id = #{dep_id} and staff_position_id = #{position_id}")
     Staff findId(@Param("name")String name,@Param("sex")String sex,@Param("age")int age,@Param("dep_id")int dep_id,@Param("position_id")int position_id);
+
 }

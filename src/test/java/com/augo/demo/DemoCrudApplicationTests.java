@@ -1,6 +1,7 @@
 package com.augo.demo;
 
 import com.augo.demo.dao.StaffMapper;
+import com.augo.demo.pojo.AllStaff;
 import com.augo.demo.pojo.Staff;
 import com.augo.demo.service.impl.StaffServiceImpl;
 import com.augo.demo.utils.VerificationCode;
@@ -22,6 +23,10 @@ class DemoCrudApplicationTests {
     @Autowired
     @Qualifier("checkCode")
     VerificationCode verificationCode;
+
+    @Autowired
+    @Qualifier("staffMapper")
+    private StaffMapper staffMapper;
 
     @Test
     void contextLoads() {

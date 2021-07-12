@@ -119,6 +119,41 @@
             </c:forEach>
         </table>
     </form>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <c:if test="${requestScope.pbu.currentPageNumber == 1}">
+            <li class="disabled">
+                </c:if>
+                <c:if test="${requestScope.pbu.currentPageNumber > 1}">
+            <li>
+                </c:if>
+                <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${requestScope.pbu.currentPageNumber - 1}&rows=5">&laquo;</a>
+            </li>
+            <c:forEach begin="1" end="${requestScope.pbu.totalPageNumber}" var="i" step="1">
+                <c:if test="${requestScope.pbu.currentPageNumber == i}">
+                    <li class="active">
+                        <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${i}&rows=5">${i} <span class="sr-only">(current)</span></a>
+                    </li>
+                </c:if>
+                <c:if test="${requestScope.pbu.currentPageNumber != i}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${i}&rows=5">${i} <span class="sr-only">(current)</span></a>
+                    </li>
+                </c:if>
+            </c:forEach>
+            <c:if test="${requestScope.pbu.currentPageNumber == requestScope.pbu.totalPageNumber}">
+            <li class="disabled">
+                </c:if>
+                <c:if test="${requestScope.pbu.currentPageNumber < requestScope.pbu.totalPageNumber}">
+            <li>
+                </c:if>
+                <a href="${pageContext.request.contextPath}/listUserServlet?currentPageNumber=${requestScope.pbu.currentPageNumber >= requestScope.pbu.totalPageNumber ? requestScope.pbu.currentPageNumber:requestScope.pbu.currentPageNumber + 1}&rows=5" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <span style="font-size: 24px;">共有${requestScope.pbu.totalCount}条数据，共${requestScope.pbu.totalPageNumber}页</span>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
