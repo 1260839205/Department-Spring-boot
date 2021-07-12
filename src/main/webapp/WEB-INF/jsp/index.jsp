@@ -27,6 +27,11 @@
         </p>
       </div>
   </div>
+  <div style="float:left;">
+    <form class="form-inline" action="/exit" method="get">
+      <button type="submit" class="btn btn-default">注销登录</button>
+    </form>
+  </div>
   <div style=" width:300px; margin:0 auto;">
     <a href="/list" style="text-decoration:none;font-size:33px" >查询所有部门信息</a>
     <c:forEach items="${departmentList}" var="department" varStatus="number">

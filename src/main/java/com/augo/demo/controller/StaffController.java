@@ -47,23 +47,33 @@ public class StaffController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(String user, String password, String verifycode, HttpSession session, Model model){
+    public String login(String user, String password, String verifycode, HttpSession session, Model model,HttpServletRequest request){
         //获取Session域中的验证码值
         String verify_code = (String) session.getAttribute("verify_code");
-        //判断用户输入的验证码是否与Session域中的验证码一致
-        if (verifycode != null && verify_code != null &&verify_code.equalsIgnoreCase(verifycode)){
-            Map<String, Object> map = staffService.login(user, password);
-            if (map != null){
-                session.setAttribute("user",map.get("staff"));
-                session.setAttribute("authority",map.get("authority"));
-                session.setAttribute("department",map.get("department"));
-                session.setAttribute("position",map.get("position"));
-                return "redirect:index";
-            }else {
-                model.addAttribute("msg","登录失败，账号或密码错误");
+
+        //解决错误提示问题
+        if (request.getSession().getAttribute("login_err") != null){
+            model.addAttribute("msg",(String)request.getSession().getAttribute("login_err"));
+            request.getSession().removeAttribute("login_err");
+            System.out.println("aaaaaa");
+            return "login";
+        }else if (user != null && password != null && verify_code != null){
+            System.out.println("bbbbbbb");
+            //判断用户输入的验证码是否与Session域中的验证码一致
+            if (verifycode != null && verify_code != null &&verify_code.equalsIgnoreCase(verifycode)){
+                Map<String, Object> map = staffService.login(user, password);
+                if (map != null){
+                    session.setAttribute("user",map.get("staff"));
+                    session.setAttribute("authority",map.get("authority"));
+                    session.setAttribute("department",map.get("department"));
+                    session.setAttribute("position",map.get("position"));
+                    return "redirect:index";
+                }else {
+                    model.addAttribute("msg","登录失败，账号或密码错误");
+                }
+            }else{
+                model.addAttribute("msg","验证码错误，请重新输入");
             }
-        }else{
-            model.addAttribute("msg","验证码错误，请重新输入");
         }
         return "login";
     }
@@ -100,7 +110,6 @@ public class StaffController {
     public String echoStaff(@PathVariable int id , Model model){
         AllStaff allStaff = staffService.echoStaff(id);
         model.addAttribute("echo_Staff",allStaff);
-        System.out.println(allStaff);
         return "update";
     }
 
@@ -119,6 +128,74 @@ public class StaffController {
         }else {
             return "forward:list";
         }
+    }
+
+    /**
+     * 删除指定人
+     * @param id
+     * @return
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteStaff(@PathVariable int id,HttpSession session){
+        Staff staff = (Staff) session.getAttribute("user");
+        staffService.deleteStaff(id);
+        if (staff.getStaff_authority_id() != 10000) {
+            return "redirect:list/" + staff.getStaff_department_id();
+        }else {
+            return "redirect:list";
+        }
+    }
+
+    /**
+     * 批量删除用户
+     * @param uid
+     * @param session
+     * @return
+     */
+    @PostMapping("/delete")
+    public String deleteSelect(int[] uid,HttpSession session){
+        Staff staff = (Staff) session.getAttribute("user");
+        for (int i = 0; i < uid.length; i++) {
+            staffService.deleteStaff(uid[i]);
+        }
+        if (staff.getStaff_authority_id() != 10000) {
+            return "redirect:list/" + staff.getStaff_department_id();
+        }else {
+            return "redirect:list";
+        }
+    }
+
+    /**
+     * 跳转页面
+     * @return
+     */
+    @RequestMapping("/add")
+    public String add(){
+        return "add";
+    }
+
+
+    /**
+     * 添加一个用户
+     * @param allStaff
+     * @param session
+     * @return
+     */
+    @PostMapping("/addStaff")
+    public String addStaff(AllStaff allStaff ,HttpSession session){
+        Staff staff = (Staff) session.getAttribute("user");
+        staffService.addStaff(allStaff);
+        if (staff.getStaff_authority_id() != 10000) {
+            return "redirect:list/" + staff.getStaff_department_id();
+        }else {
+            return "redirect:list";
+        }
+    }
+
+    @GetMapping("/exit")
+    public String exit(HttpSession session){
+        session.removeAttribute("user");
+        return "login";
     }
 
     /**

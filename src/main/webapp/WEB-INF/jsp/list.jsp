@@ -80,11 +80,17 @@
             <button type="submit" class="btn btn-default">返回首页</button>
         </form>
     </div>
+
+    <div style="float:left;">
+        <form class="form-inline" action="/exit" method="get">
+            <button type="submit" class="btn btn-default">注销登录</button>
+        </form>
+    </div>
     <div style="float: right;margin: 5px;">
-        <a class="btn btn-primary" href="add.jsp">添加联系人</a>
+        <a class="btn btn-primary" href="/add">添加用户</a>
         <a class="btn btn-primary" id="delSeleced" href="javascript:void(0);">删除选中</a>
     </div>
-    <form action="" method="post" id="form">
+    <form action="/delete" method="post" id="form">
         <table border="1" class="table table-bordered table-hover">
             <tr class="success">
                 <th><input type="checkbox" id="selectAll"></th>
@@ -101,7 +107,7 @@
             <c:forEach items="${allStaff}" var="user" varStatus="number">
                 <tr>
                     <td><input type="checkbox" name="uid" value="${user.staff_id}"></td>
-                    <td>${user.staff_id}</td>
+                    <td>${number.count}</td>
                     <td>${user.staff_name}</td>
                     <td>${user.staff_sex}</td>
                     <td>${user.staff_age}</td>

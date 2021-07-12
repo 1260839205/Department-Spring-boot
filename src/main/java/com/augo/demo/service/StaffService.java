@@ -26,4 +26,8 @@ public interface StaffService {
     AllStaff echoStaff(int id);
 
     void updateStaff(AllStaff allStaff);
+
+    void deleteStaff(int id);
+
+    void addStaff(AllStaff allStaff);
 }

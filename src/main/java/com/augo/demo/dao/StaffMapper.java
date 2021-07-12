@@ -1,10 +1,7 @@
 package com.augo.demo.dao;
 
 import com.augo.demo.pojo.*;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -83,4 +80,42 @@ public interface StaffMapper {
      */
     @Update("update staff set staff_sex = #{sex},staff_age = #{age},staff_department_id = #{dep_id},staff_position_id = #{position_id} where staff_id = #{id}")
     void updateStaff(@Param("sex")String sex,@Param("age")int age,@Param("dep_id")int dep_id,@Param("position_id")int position_id,@Param("id")int id);
+
+    /**
+     * 删除账号和密码
+     * @param id
+     */
+    @Delete("delete unpwd from unpwd  where pwd_staff_id = #{id}")
+    void deleteUnpwd(@Param("id") int id);
+
+    /**
+     * 删除staff表内对应id的所有数据
+     * @param id
+     */
+    @Delete("delete staff from staff  where staff_id = #{id}")
+    void deleteStaff(@Param("id") int id);
+
+    /**
+     * 增加信息到Staff
+     * @param name
+     * @param sex
+     * @param age
+     * @param dep_id
+     * @param position_id
+     * @param authority_id
+     */
+    @Insert("insert into staff values(null,#{name},#{sex},#{age},#{dep_id},#{position_id},#{authority_id})")
+    void addStaff(@Param("name")String name,@Param("sex")String sex,@Param("age")int age,@Param("dep_id")int dep_id,@Param("position_id")int position_id,@Param("authority_id")int authority_id);
+
+    /**
+     * 增加信息到Unpwd
+     * @param id
+     * @param pwd_username
+     * @param pwd_password
+     */
+    @Insert("insert into unpwd values(#{id},#{pwd_username},#{pwd_password})")
+    void addUnpwd(@Param("id")int id,@Param("pwd_username")String  pwd_username,@Param("pwd_password")String  pwd_password);
+
+    @Select("select * from staff where staff_name = #{name} and staff_sex = #{sex} and staff_age = #{age} and staff_department_id = #{dep_id} and staff_position_id = #{position_id}")
+    Staff findId(@Param("name")String name,@Param("sex")String sex,@Param("age")int age,@Param("dep_id")int dep_id,@Param("position_id")int position_id);
 }
