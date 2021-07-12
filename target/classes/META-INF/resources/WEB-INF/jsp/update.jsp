@@ -26,7 +26,7 @@
     </head>
     <body>
         <div class="container" style="width: 400px;">
-        <h3 style="text-align: center;">修改联系人</h3>
+        <h3 style="text-align: center;">修改用户信息</h3>
         <form action="/update" method="post">
             <input name="staff_id" value="${echo_Staff.staff_id}" id="staff_id">
           <div class="form-group">
