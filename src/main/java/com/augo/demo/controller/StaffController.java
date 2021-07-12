@@ -2,7 +2,6 @@ package com.augo.demo.controller;
 
 
 import com.augo.demo.pojo.AllStaff;
-import com.augo.demo.pojo.Authority;
 import com.augo.demo.pojo.Staff;
 import com.augo.demo.service.impl.StaffServiceImpl;
 import com.augo.demo.utils.VerificationCode;
@@ -55,10 +54,8 @@ public class StaffController {
         if (request.getSession().getAttribute("login_err") != null){
             model.addAttribute("msg",(String)request.getSession().getAttribute("login_err"));
             request.getSession().removeAttribute("login_err");
-            System.out.println("aaaaaa");
             return "login";
         }else if (user != null && password != null && verify_code != null){
-            System.out.println("bbbbbbb");
             //判断用户输入的验证码是否与Session域中的验证码一致
             if (verifycode != null && verify_code != null &&verify_code.equalsIgnoreCase(verifycode)){
                 Map<String, Object> map = staffService.login(user, password);
